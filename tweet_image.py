@@ -178,7 +178,7 @@ class TweetImage:
             text=self.tr(u'Tweet what you are working on'),
             callback=self.run,
             parent=self.iface.mainWindow())
-
+        # Link the delete API details button to the associated function
         self.dlg.btnDelAPI.clicked.connect(self.delete_details)
 
 
@@ -192,8 +192,8 @@ class TweetImage:
         # remove the toolbar
         del self.toolbar
 
-##
     def delete_details(self):
+        # Function to clear the Twitter API details from the hard drive
         self.iface.messageBar().pushMessage("Success", "You pushed me", duration=3)
         #get plugin location
         plugin_path = os.path.dirname(os.path.realpath(__file__))
@@ -206,27 +206,19 @@ class TweetImage:
         os.remove(os.path.join(plugin_path, "TwitterDetails.txt"))
 
 
-##
     def run(self):
         """Run method that performs all the real work"""
         try:
             import tweepy
-            #print "module tweepy found"
             self.iface.messageBar().pushMessage("Success", "Module Tweepy found", duration=3)
-            #QtGui.QMessageBox.about(self, "tweepy found", "Your tweepy installation was found. cool!")
+
         except ImportError:
-            #raise Exception("Tweepy module not installed correctly")
-            #QMessageBox.information(self.iface.mainWindow(),"Error","Tweepy not found")
+            # raise Exception("Tweepy module not installed correctly")
             self.iface.messageBar().pushCritical("Error", "Module Tweepy not found")
-
-
 
         #get plugin location
         plugin_path = os.path.dirname(os.path.realpath(__file__))
         print plugin_path
-
-        # show the dialog
-        #self.dlg.show()
 
         try:
             f = open(os.path.join(plugin_path, "TwitterDetails.txt"),"r")
@@ -252,7 +244,6 @@ class TweetImage:
 
         #check for txt file and populate boxes if it exists
         consumer_key = self.dlg.txtCK.text()
-        #print type(consumer_key)
         consumer_secret = self.dlg.txtCKS.text()
         access_token = self.dlg.txtAT.text()
         access_token_secret = self.dlg.txtATS.text()
@@ -266,28 +257,19 @@ class TweetImage:
         if self.dlg.chkImage.isChecked() == True:
             self.iface.mapCanvas().saveAsImage(os.path.join(plugin_path, "TweetImage.png"))
 
-
         # See if OK was pressed
         if result:
 
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            #pass
-            #QMessageBox.information(self.iface.mainWindow(),"hello world","Test")
             mystatus = self.dlg.txtStatus.text()
-
             image = os.path.join(plugin_path, "TweetImage.png")
-            #message = "This is an automated tweet sent using Tweepy from QGIS"
 
-            #api.update_with_media(image, status=message)
+            #Check and send
             if len(mystatus) > 0 and self.dlg.chkImage.isChecked() == False:
                 api.update_status(mystatus)
             if len(mystatus) > 0 and self.dlg.chkImage.isChecked() == True:
                 api.update_with_media(image, mystatus)
 
-
             #write contents of txt boxes to file
-            #might need to look at order
             f = open(os.path.join(plugin_path, 'TwitterDetails.txt'),'w')
             f.write(self.dlg.txtCK.text()+'\n')
             f.write(self.dlg.txtCKS.text()+'\n')
@@ -299,6 +281,6 @@ class TweetImage:
             try:
                 os.remove(os.path.join(plugin_path, "TweetImage.png"))
                 os.remove(os.path.join(plugin_path, "TweetImage.PNGw"))
-                #os.remove("TweetImage.pngw")
+
             except:
                 self.iface.messageBar().pushMessage("Error", "Files not deleted", duration=5)
