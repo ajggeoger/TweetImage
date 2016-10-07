@@ -8,7 +8,7 @@ A QGIS plugin to tweet the map you are working on.
 2. You also need to have Tweepy installed and visible from the system Python. This
 has been tested on Linux and Mac and works fine, although an initial issue with
 a conflict with an Anaconda installation was solved on the Mac by removing
-references to Anaconda.
+references to Anaconda. The easiest way to install it is to use `pip install tweepy`. If the install doesn't work first time, you may need to also run `pip install requests requests_oauthlib`.
 
 3. TweetImage - From the TweetImage Github page, clone or download a zip file of the repository. Copy the files into .qgis2/python/plugins/TweetImage (you may need to make a directory called TweetImage in that location before doing so). The easiest way is to use the following: `cp -R Source/Code/TweetImage/ ~/.qgis2/python/plugins/TweetImage/`
 
