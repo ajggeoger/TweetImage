@@ -194,16 +194,19 @@ class TweetImage:
 
     def delete_details(self):
         # Function to clear the Twitter API details from the hard drive
-        self.iface.messageBar().pushMessage("Success", "You pushed me", duration=3)
+        
         #get plugin location
-        plugin_path = os.path.dirname(os.path.realpath(__file__))
+        try: 
+            plugin_path = os.path.dirname(os.path.realpath(__file__))
 
-        self.dlg.txtCK.setText(str(''))
-        self.dlg.txtCKS.setText(str(''))
-        self.dlg.txtAT.setText(str(''))
-        self.dlg.txtATS.setText(str(''))
+            self.dlg.txtCK.setText(str(''))
+            self.dlg.txtCKS.setText(str(''))
+            self.dlg.txtAT.setText(str(''))
+            self.dlg.txtATS.setText(str(''))
 
-        os.remove(os.path.join(plugin_path, "TwitterDetails.txt"))
+            os.remove(os.path.join(plugin_path, "TwitterDetails.txt"))
+        except:
+            self.iface.messageBar().pushMessage("Note:", "No details to delete", duration=3)
 
 
     def run(self):
@@ -222,12 +225,9 @@ class TweetImage:
 
         try:
             f = open(os.path.join(plugin_path, "TwitterDetails.txt"),"r")
-            print "file found"
+            #print "file found"
             data = f.readlines()
-            print data[0][:-1]
-            print data[1][:-1]
-            print data[2][:-1]
-            print data[3][:-1]
+            
             self.dlg.txtCK.setText(str(data[0][:-1]))
             self.dlg.txtCKS.setText(str(data[1][:-1]))
             self.dlg.txtAT.setText(str(data[2][:-1]))
@@ -283,4 +283,9 @@ class TweetImage:
                 os.remove(os.path.join(plugin_path, "TweetImage.PNGw"))
 
             except:
-                self.iface.messageBar().pushMessage("Error", "Files not deleted", duration=5)
+                self.iface.messageBar().pushMessage("Note:", "No image files found to remove", duration=5)
+
+            #clear text from message bar
+            self.dlg.txtStatus.setText(str(''))
+
+
