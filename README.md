@@ -1,5 +1,5 @@
 # TweetImage
-A QGIS plugin to tweet the map you are working on.
+A QGIS plugin to tweet the map you are working on to your own Twitter account.
 
 ## Requirements
 1. First up you need a Twitter account. Obvs. So go to
